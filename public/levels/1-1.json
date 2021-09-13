@@ -2,7 +2,11 @@
   "backgrounds": [
     {
       "tile": "space",
-      "ranges": [0, 40, 0, 16]
+      "ranges": [[0, 40, 0, 16]]
+    },
+    {
+      "tile": "ground",
+      "ranges": [[0, 40, 14, 16]]
     }
   ]
 }
