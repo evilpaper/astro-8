@@ -5,3 +5,7 @@ export function loadImage(url) {
     image.addEventListener("load", () => resolve(image));
   });
 }
+
+export function loadLevel(name) {
+  return fetch(`/levels/${name}.json`).then((result) => result.json());
+}

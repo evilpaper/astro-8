@@ -1,5 +1,5 @@
 import SpriteSheet from "./SpriteSheet.js";
-import { loadImage } from "./loaders.js";
+import { loadImage, loadLevel } from "./loaders.js";
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
@@ -9,10 +9,18 @@ loadImage("./img/spritesheet.png").then((image) => {
   sprites.define("ground", 0, 35);
   sprites.define("space", 66, 35);
 
-  for (let x = 0; x < 24; ++x) {
+  loadLevel("1-1").then((level) => {
+    console.log(level);
+  });
+
+  for (let x = 0; x < 40; ++x) {
     for (let y = 0; y < 16; ++y) {
-      sprites.draw("space", context, x * 16, y * 16);
+      sprites.drawTile("space", context, x, y);
     }
   }
-  sprites.draw("ground", context, 100, 100);
+  for (let x = 0; x < 40; ++x) {
+    for (let y = 14; y < 16; ++y) {
+      sprites.drawTile("ground", context, x, y);
+    }
+  }
 });
