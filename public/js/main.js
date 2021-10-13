@@ -11,17 +11,22 @@ function drawBackground(background, context, sprites) {
   });
 }
 
+function loadBackgroundSprites() {
+  return loadImage("./img/spritesheet.png").then((image) => {
+    const sprites = new SpriteSheet(image, 16, 16);
+    sprites.define("ground", 0, 35);
+    sprites.define("space", 66, 35);
+    return sprites;
+  });
+}
+
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
 
-loadImage("./img/spritesheet.png").then((image) => {
-  const sprites = new SpriteSheet(image, 16, 16);
-  sprites.define("ground", 0, 35);
-  sprites.define("space", 66, 35);
-
-  loadLevel("1-1").then((level) => {
+Promise.all([loadBackgroundSprites(), loadLevel("1-1")]).then(
+  ([sprites, level]) => {
     level.backgrounds.forEach((background) => {
       drawBackground(background, context, sprites);
     });
-  });
-});
+  }
+);
