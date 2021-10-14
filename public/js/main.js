@@ -11,9 +11,18 @@ function drawBackground(background, context, sprites) {
   });
 }
 
+function loadCharacterSprites() {
+  return loadImage("./img/spritesheet.png").then((image) => {
+    const sprites = new SpriteSheet(image, 26, 35);
+    sprites.define("idle", 0, 0);
+    return sprites;
+  });
+}
+
 function loadBackgroundSprites() {
   return loadImage("./img/spritesheet.png").then((image) => {
     const sprites = new SpriteSheet(image, 16, 16);
+    console.log(sprites);
     sprites.define("ground", 0, 35);
     sprites.define("space", 66, 35);
     return sprites;
@@ -23,10 +32,13 @@ function loadBackgroundSprites() {
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
 
-Promise.all([loadBackgroundSprites(), loadLevel("1-1")]).then(
-  ([sprites, level]) => {
-    level.backgrounds.forEach((background) => {
-      drawBackground(background, context, sprites);
-    });
-  }
-);
+Promise.all([
+  loadCharacterSprites(),
+  loadBackgroundSprites(),
+  loadLevel("1-1"),
+]).then(([characterSprites, sprites, level]) => {
+  level.backgrounds.forEach((background) => {
+    drawBackground(background, context, sprites);
+  });
+  characterSprites.draw("idle", context, 24, 24);
+});
