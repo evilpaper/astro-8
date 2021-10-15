@@ -14,7 +14,7 @@ function drawBackground(background, context, sprites) {
 function loadCharacterSprites() {
   return loadImage("./img/spritesheet.png").then((image) => {
     const sprites = new SpriteSheet(image, 26, 35);
-    sprites.define("idle", 0, 0);
+    sprites.define("idle", 0, 0, 25, 35);
     return sprites;
   });
 }
@@ -22,9 +22,8 @@ function loadCharacterSprites() {
 function loadBackgroundSprites() {
   return loadImage("./img/spritesheet.png").then((image) => {
     const sprites = new SpriteSheet(image, 16, 16);
-    console.log(sprites);
-    sprites.define("ground", 0, 35);
-    sprites.define("space", 66, 35);
+    sprites.defineTile("ground", 0, 35);
+    sprites.defineTile("space", 66, 35);
     return sprites;
   });
 }
