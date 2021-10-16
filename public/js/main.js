@@ -14,26 +14,52 @@ function drawBackground(background, context, sprites) {
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
 
+// The compositors role is to draw the layers in order
+// A layer is a function that draw on a context
+class Compositor {
+  constructor() {
+    this.layers = [];
+  }
+  draw(context) {
+    this.layers.forEach((layer) => {
+      layer(context);
+    });
+  }
+}
+
+function createBackgroundLayer(backgrounds, sprites) {
+  // Initialize new buffer
+  // The buffer is used to avoid drawing every single tile on every update call
+  // Instead we draw the background once on another canvas and then place it on our main canvas
+  const buffer = document.createElement("canvas");
+  buffer.width = 256;
+  buffer.height = 240;
+
+  backgrounds.forEach((background) => {
+    drawBackground(background, buffer.getContext("2d"), sprites);
+  });
+
+  // We return the function that actually draws
+  return function drawBackgroundLayer(context) {
+    context.drawImage(buffer, 0, 0);
+  };
+}
+
 Promise.all([
   loadCharacterSprites(),
   loadBackgroundSprites(),
   loadLevel("1-1"),
 ]).then(([characterSprites, sprites, level]) => {
-  // The backgroundBuffer is used to avoid drawing every single tile on every update call
-  // Instead we draw the background once on another canvas and then place it on our main canvas
-  const backgroundBuffer = document.createElement("canvas");
-  backgroundBuffer.width = 256;
-  backgroundBuffer.height = 240;
+  const comp = new Compositor();
+  const backgroundLayer = createBackgroundLayer(level.backgrounds, sprites);
+  comp.layers.push(backgroundLayer);
 
-  level.backgrounds.forEach((background) => {
-    drawBackground(background, backgroundBuffer.getContext("2d"), sprites);
-  });
   const pos = {
     x: 48,
     y: 24,
   };
   function update() {
-    context.drawImage(backgroundBuffer, 0, 0);
+    comp.draw(context);
     characterSprites.draw("idle", context, pos.x, pos.y);
     pos.x += 2;
     pos.y += 2;
