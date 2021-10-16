@@ -22,5 +22,15 @@ Promise.all([
   level.backgrounds.forEach((background) => {
     drawBackground(background, context, sprites);
   });
-  characterSprites.draw("idle", context, 24, 24);
+  const pos = {
+    x: 48,
+    y: 24,
+  };
+  function update() {
+    characterSprites.draw("idle", context, pos.x, pos.y);
+    pos.x += 2;
+    pos.y += 2;
+    requestAnimationFrame(update);
+  }
+  update();
 });
