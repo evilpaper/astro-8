@@ -12,6 +12,13 @@ function createSpriteLayer(sprite, pos) {
   };
 }
 
+class Vec2 {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
 Promise.all([
   loadCharacterSprites(),
   loadBackgroundSprites(),
@@ -26,10 +33,11 @@ Promise.all([
   );
   comp.layers.push(backgroundLayer);
 
-  const pos = {
-    x: 48,
-    y: 24,
-  };
+  const gravity = 0.5;
+
+  const pos = new Vec2(48, 100);
+
+  const vel = new Vec2(2, -10);
 
   const characterLayer = createSpriteLayer(characterSprites, pos);
   comp.layers.push(characterLayer);
@@ -37,8 +45,9 @@ Promise.all([
   function update() {
     comp.draw(context);
 
-    pos.x += 2;
-    pos.y += 2;
+    pos.x += vel.x;
+    pos.y += vel.y;
+    vel.y += gravity;
     requestAnimationFrame(update);
   }
   update();
