@@ -48,14 +48,17 @@ Promise.all([
   player.pos.set(48, 100);
   player.vel.set(2, -10);
 
+  player.update = function updatePlayer() {
+    this.pos.x += player.vel.x;
+    this.pos.y += player.vel.y;
+  };
+
   const characterLayer = createSpriteLayer(characterSprites, player.pos);
   comp.layers.push(characterLayer);
 
   function update() {
     comp.draw(context);
-
-    player.pos.x += player.vel.x;
-    player.pos.y += player.vel.y;
+    player.update();
     player.vel.y += gravity;
     requestAnimationFrame(update);
   }
