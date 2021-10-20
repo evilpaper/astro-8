@@ -11,11 +11,20 @@ function createSpriteLayer(sprite, pos) {
     sprite.draw("idle", context, pos.x, pos.y);
   };
 }
-
 class Vec2 {
   constructor(x, y) {
+    this.set(x, y);
+  }
+  set(x, y) {
     this.x = x;
     this.y = y;
+  }
+}
+
+class Entity {
+  constructor() {
+    this.pos = new Vec2(0, 0);
+    this.vel = new Vec2(0, 0);
   }
 }
 
@@ -35,19 +44,19 @@ Promise.all([
 
   const gravity = 0.5;
 
-  const pos = new Vec2(48, 100);
+  const player = new Entity();
+  player.pos.set(48, 100);
+  player.vel.set(2, -10);
 
-  const vel = new Vec2(2, -10);
-
-  const characterLayer = createSpriteLayer(characterSprites, pos);
+  const characterLayer = createSpriteLayer(characterSprites, player.pos);
   comp.layers.push(characterLayer);
 
   function update() {
     comp.draw(context);
 
-    pos.x += vel.x;
-    pos.y += vel.y;
-    vel.y += gravity;
+    player.pos.x += player.vel.x;
+    player.pos.y += player.vel.y;
+    player.vel.y += gravity;
     requestAnimationFrame(update);
   }
   update();
