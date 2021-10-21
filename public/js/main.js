@@ -6,9 +6,9 @@ import { createBackgroundLayer } from "./layers.js";
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
 
-function createSpriteLayer(sprite, pos) {
+function createSpriteLayer(entity) {
   return function drawSpriteLayer(context) {
-    sprite.draw("idle", context, pos.x, pos.y);
+    entity.draw(context);
   };
 }
 class Vec2 {
@@ -32,7 +32,7 @@ Promise.all([
   loadCharacterSprites(),
   loadBackgroundSprites(),
   loadLevel("1-1"),
-]).then(([characterSprites, backgroundSprites, level]) => {
+]).then(([characterSprite, backgroundSprites, level]) => {
   const comp = new Compositor();
   // The return value of createBackgroundLayer is a draw function. When we call that function as we do in
   // the compositor it will draw the background to the context
@@ -53,7 +53,11 @@ Promise.all([
     this.pos.y += player.vel.y;
   };
 
-  const characterLayer = createSpriteLayer(characterSprites, player.pos);
+  player.draw = function drawPlayer(context) {
+    characterSprite.draw("idle", context, this.pos.x, this.pos.y);
+  };
+
+  const characterLayer = createSpriteLayer(player);
   comp.layers.push(characterLayer);
 
   function update() {
