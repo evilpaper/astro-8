@@ -2,6 +2,7 @@ import { loadLevel } from "./loaders.js";
 import { loadCharacterSprites, loadBackgroundSprites } from "./sprites.js";
 import { Compositor } from "./Compositor.js";
 import { createBackgroundLayer } from "./layers.js";
+import Entity from "./Entity.js";
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
@@ -10,22 +11,6 @@ function createSpriteLayer(entity) {
   return function drawSpriteLayer(context) {
     entity.draw(context);
   };
-}
-class Vec2 {
-  constructor(x, y) {
-    this.set(x, y);
-  }
-  set(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
-
-class Entity {
-  constructor() {
-    this.pos = new Vec2(0, 0);
-    this.vel = new Vec2(0, 0);
-  }
 }
 
 Promise.all([
