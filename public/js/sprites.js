@@ -1,7 +1,7 @@
 import SpriteSheet from "./SpriteSheet.js";
 import { loadImage } from "./loaders.js";
 
-export function loadCharacterSprites() {
+export function loadPlayerSprite() {
   return loadImage("./img/spritesheet.png").then((image) => {
     const sprites = new SpriteSheet(image, 26, 35);
     sprites.define("idle", 0, 0, 25, 35);
