@@ -1,17 +1,11 @@
 import { loadLevel } from "./loaders.js";
-import { createPlayer } from "./entities.js";
 import { loadBackgroundSprites } from "./sprites.js";
 import { Compositor } from "./Compositor.js";
-import { createBackgroundLayer } from "./layers.js";
+import { createPlayer } from "./entities.js";
+import { createBackgroundLayer, createSpriteLayer } from "./layers.js";
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
-
-function createSpriteLayer(entity) {
-  return function drawSpriteLayer(context) {
-    entity.draw(context);
-  };
-}
 
 Promise.all([createPlayer(), loadBackgroundSprites(), loadLevel("1-1")]).then(
   ([player, backgroundSprites, level]) => {
