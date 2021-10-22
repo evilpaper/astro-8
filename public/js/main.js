@@ -18,17 +18,31 @@ Promise.all([createPlayer(), loadBackgroundSprites(), loadLevel("1-1")]).then(
     );
     comp.layers.push(backgroundLayer);
 
-    const gravity = 0.5;
+    const gravity = 30;
+    player.pos.set(48, 100);
+    player.vel.set(200, -600);
 
     const characterLayer = createSpriteLayer(player);
     comp.layers.push(characterLayer);
 
-    function update() {
-      comp.draw(context);
-      player.update();
-      player.vel.y += gravity;
+    const deltaTime = 1 / 60;
+    let accumulatedTime = 0;
+    let lastTime = 0;
+
+    function update(time) {
+      accumulatedTime += (time - lastTime) / 1000;
+
+      while (accumulatedTime > deltaTime) {
+        comp.draw(context);
+        player.update(deltaTime);
+        player.vel.y += gravity;
+        accumulatedTime -= deltaTime;
+      }
+
       requestAnimationFrame(update);
+
+      lastTime = time;
     }
-    update();
+    update(0);
   }
 );
