@@ -1,3 +1,4 @@
+import Timer from "./Timer.js";
 import { loadLevel } from "./loaders.js";
 import { loadBackgroundSprites } from "./sprites.js";
 import { Compositor } from "./Compositor.js";
@@ -25,24 +26,13 @@ Promise.all([createPlayer(), loadBackgroundSprites(), loadLevel("1-1")]).then(
     const characterLayer = createSpriteLayer(player);
     comp.layers.push(characterLayer);
 
-    const deltaTime = 1 / 60;
-    let accumulatedTime = 0;
-    let lastTime = 0;
+    const timer = new Timer(1 / 60);
 
-    function update(time) {
-      accumulatedTime += (time - lastTime) / 1000;
-
-      while (accumulatedTime > deltaTime) {
-        comp.draw(context);
-        player.update(deltaTime);
-        player.vel.y += gravity;
-        accumulatedTime -= deltaTime;
-      }
-
-      requestAnimationFrame(update);
-
-      lastTime = time;
-    }
-    update(0);
+    timer.update = function update(deltaTime) {
+      comp.draw(context);
+      player.update(deltaTime);
+      player.vel.y += gravity;
+    };
+    timer.start();
   }
 );
