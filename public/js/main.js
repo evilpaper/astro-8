@@ -19,9 +19,9 @@ Promise.all([createPlayer(), loadBackgroundSprites(), loadLevel("1-1")]).then(
     );
     comp.layers.push(backgroundLayer);
 
-    const gravity = 30;
-    player.pos.set(48, 100);
-    player.vel.set(200, -600);
+    const gravity = 20;
+    player.pos.set(20, 188);
+    player.vel.set(100, -600);
 
     const characterLayer = createSpriteLayer(player);
     comp.layers.push(characterLayer);
