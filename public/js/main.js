@@ -19,7 +19,7 @@ Promise.all([createPlayer(), loadBackgroundSprites(), loadLevel("1-1")]).then(
     );
     comp.layers.push(backgroundLayer);
 
-    const gravity = 20;
+    const gravity = 1200;
     player.pos.set(20, 188);
     player.vel.set(100, -600);
 
@@ -27,11 +27,10 @@ Promise.all([createPlayer(), loadBackgroundSprites(), loadLevel("1-1")]).then(
     comp.layers.push(characterLayer);
 
     const timer = new Timer(1 / 60);
-
     timer.update = function update(deltaTime) {
-      comp.draw(context);
       player.update(deltaTime);
-      player.vel.y += gravity;
+      comp.draw(context);
+      player.vel.y += gravity * deltaTime;
     };
     timer.start();
   }

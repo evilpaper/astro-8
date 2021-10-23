@@ -6,8 +6,8 @@ export function createPlayer() {
     const player = new Entity();
 
     player.update = function updatePlayer(deltaTime) {
-      this.pos.x += player.vel.x * deltaTime;
-      this.pos.y += player.vel.y * deltaTime;
+      this.pos.x += this.vel.x * deltaTime;
+      this.pos.y += this.vel.y * deltaTime;
     };
 
     player.draw = function drawPlayer(context) {
