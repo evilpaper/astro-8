@@ -31,4 +31,10 @@ export default class KeyboardState {
 
     this.keyMap.get(keyCode)(keyState);
   }
+
+  listenTo(window) {
+    window.addEventListener("keydown", (event) => {
+      this.handleEvent(event);
+    });
+  }
 }
