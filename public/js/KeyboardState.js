@@ -28,13 +28,16 @@ export default class KeyboardState {
     }
 
     this.keyStates.set(keyCode, keyState);
+    console.log(this.keyStates);
 
     this.keyMap.get(keyCode)(keyState);
   }
 
   listenTo(window) {
-    window.addEventListener("keydown", (event) => {
-      this.handleEvent(event);
+    ["keydown", "keyup"].forEach((eventName) => {
+      window.addEventListener((event) => {
+        this.handleEvent(event);
+      });
     });
   }
 }
