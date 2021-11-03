@@ -4,6 +4,9 @@ import { loadBackgroundSprites } from "./sprites.js";
 import { Compositor } from "./Compositor.js";
 import { createPlayer } from "./entities.js";
 import { createBackgroundLayer, createSpriteLayer } from "./layers.js";
+import Keyboard from "./KeyboardState.js";
+
+const input = new Keyboard();
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
