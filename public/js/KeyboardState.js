@@ -12,32 +12,29 @@ export default class KeyboardState {
     this.keyMap.set(keyCode, callback);
   }
 
-  handleEvent(event) {
-    const { keyCode } = event;
+  handleEvent(e) {
+    const { keyCode } = e;
 
     if (!this.keyMap.has(keyCode)) {
       return;
     }
 
-    event.preventDefault();
+    e.preventDefault();
 
-    const keyStates = event.type === "keydown" ? PRESSED : RELEASED;
+    const keyStates = e.type === "keydown" ? PRESSED : RELEASED;
 
     if (this.keyStates.get(keyCode) === keyState) {
       return;
     }
 
     this.keyStates.set(keyCode, keyState);
-    console.log(this.keyStates);
 
     this.keyMap.get(keyCode)(keyState);
   }
 
   listenTo(window) {
     ["keydown", "keyup"].forEach((eventName) => {
-      window.addEventListener((event) => {
-        this.handleEvent(event);
-      });
+      window.addEventListener(eventName, () => this.handleEvent(e));
     });
   }
 }
