@@ -6,14 +6,6 @@ import { createPlayer } from "./entities.js";
 import { createBackgroundLayer, createSpriteLayer } from "./layers.js";
 import Keyboard from "./KeyboardState.js";
 
-const input = new Keyboard();
-
-input.listenTo(window);
-
-input.addMapping(32, (keyState) => {
-  console.log(keyState);
-});
-
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
 
@@ -31,6 +23,13 @@ Promise.all([createPlayer(), loadBackgroundSprites(), loadLevel("1-1")]).then(
     const gravity = 1200;
     player.pos.set(20, 188);
     player.vel.set(100, -600);
+
+    const SPACE = 32;
+    const input = new Keyboard();
+    input.addMapping(SPACE, (keyState) => {
+      console.log(keyState);
+    });
+    input.listenTo(window);
 
     const characterLayer = createSpriteLayer(player);
     comp.layers.push(characterLayer);
