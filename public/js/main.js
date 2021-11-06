@@ -22,12 +22,16 @@ Promise.all([createPlayer(), loadBackgroundSprites(), loadLevel("1-1")]).then(
 
     const gravity = 1200;
     player.pos.set(20, 188);
-    player.vel.set(100, -600);
+    //  player.vel.set(100, -600);
 
     const SPACE = 32;
     const input = new Keyboard();
     input.addMapping(SPACE, (keyState) => {
-      console.log(keyState);
+      if (keyState) {
+        player.jump.start();
+      } else {
+        player.jump.cancel();
+      }
     });
     input.listenTo(window);
 
